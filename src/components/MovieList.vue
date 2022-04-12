@@ -3,13 +3,13 @@
     <div class="title">{{title}}</div>
     <ul class="list">
       <li v-for="item in moiveDataArr.value" :key="item.id">
-        <div class="movieWrap" v-if="item.poster_path">  <!-- API提供的資料會有圖片路徑為null的狀況，圖片路徑為null不做渲染  -->
+        <router-link :to="/movie/+item.id" class="movieWrap" v-if="item.poster_path">  <!-- API提供的資料會有圖片路徑為null的狀況，圖片路徑為null不做渲染  -->
           <div class="imgWrap">
             <img :src="`https://image.tmdb.org/t/p/w185/${item.poster_path}`" alt="">
           </div>
           <div class="movieName">{{item.title}}</div>
           <div class="date" v-if="props.showDate">{{item.release_date}}</div>
-        </div>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -39,7 +39,7 @@ export default {
 <style lang="scss" scoped>
   .movieList {
     padding: 0 60px 0 60px;
-    margin-bottom: 40px;
+    margin-top: 40px;
 
     .title {
       font-size: 32px;
@@ -55,8 +55,11 @@ export default {
 
       .movieWrap {
         min-width: 185px;
-        height: 356px;
+        // height: 356px;
         margin-right: 28px;
+        cursor: pointer;
+        color: #fff;
+        text-decoration: none;
 
         .imgWrap {
           width: 185px;

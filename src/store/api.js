@@ -1,6 +1,7 @@
 export default {
   state: {
     baseURL: 'https://api.themoviedb.org/3',
+    baseImgURL: 'https://image.tmdb.org/t/p/original',
     key: 'api_key=3439a229755b0ef08c1384ecf4175ab4',
 
     // 當前流行
@@ -13,8 +14,10 @@ export default {
     release_date_gte: '&language=zh-TW&region=TW&sort_by=release_date.asc&with_release_type=2|3|6&release_date.gte=',
 
     // 近期上映的電影
-    release_date_lte:'&language=zh-TW&region=TW&sort_by=release_date.desc&with_release_type=2|3|6&release_date.lte='
+    release_date_lte:'&language=zh-TW&region=TW&sort_by=release_date.desc&with_release_type=2|3|6&release_date.lte=',
 
+    // 本週熱門
+    weekPopularity: '&language=zh-TW&region=TW&sort_by=popularity.desc'
   },
   getters: {
     todayDate() { //獲得今天日期 String Ex: 2022-01-01
@@ -24,6 +27,10 @@ export default {
       const dd = todayDate.getDate()+1 >= 10 ? todayDate.getDate() : '0' + (todayDate.getDate(-1)).toString()
       const dateFormatting = `${yy}-${mm}-${dd}`
       return dateFormatting
+    },
+
+    weekHot(state) {
+      return `${state.baseURL}/trending/movie/week?${state.key}${state.weekPopularity}`
     },
 
     popularity(state) {
