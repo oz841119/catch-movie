@@ -17,35 +17,14 @@
 <script>
 import axios from 'axios'
 import { onMounted, reactive } from '@vue/runtime-core'
-import { useStore } from 'vuex'
 
 export default {
-  props: ['title'],
+  props: ['title','targetPath'],
   setup(props) {
     const moiveDataArr = reactive({})
-    const store = useStore()
-    const apiStore = store.state.api
-    let targetPath
-
-    ;(function() { // 判斷傳入的title名稱決定API路徑
-      switch(props.title) {
-        case '熱門電影': {
-          targetPath = `${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.popularity}`
-          break
-        }
-        case '榜上佳片': {
-          targetPath = `${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.voteAverage}`
-          break
-        }
-        case '最新上映': {
-          targetPath = `${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.release}`
-          break
-        }
-      }
-    })()
 
     onMounted(
-      axios({url: targetPath})
+      axios({url: props.targetPath})
       .then((response) => {
         moiveDataArr.value = response.data.results
         console.log(moiveDataArr.value);
