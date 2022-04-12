@@ -35,6 +35,11 @@ export default {
         }
         case '榜上佳片': {
           targetPath = `${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.voteAverage}`
+          break
+        }
+        case '最新上映': {
+          targetPath = `${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.release}`
+          break
         }
       }
     })()

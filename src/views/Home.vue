@@ -2,7 +2,7 @@
   <div class="home">
     <MovieList title="熱門電影"/>
     <MovieList title="榜上佳片"/>
-    <MovieList title="榜上佳片"/>
+    <MovieList title="最新上映"/>
     <MovieList title="榜上佳片"/>
   </div>
 </template>
