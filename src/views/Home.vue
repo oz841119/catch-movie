@@ -1,18 +1,34 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <Banner :targetPath="storeGetters.newRelease"/> -->
+    <MovieList title="本週熱門" :targetPath="storeGetters.weekHot"/>
+    <MovieList title="榜上佳片" :targetPath="storeGetters.voteAverage"/>
+    <MovieList title="即將上映" showDate="true" :targetPath="storeGetters.comingSoon"/>
+    <MovieList title="已上映" showDate="true" :targetPath="storeGetters.newRelease"/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import MovieList from '../components/MovieList.vue'
+import Banner from '../components/Banner.vue'
 
+import { useStore } from 'vuex'
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
+    MovieList,
+    Banner
+  },
+  setup() {
+    const storeGetters = useStore().getters
+    return{ storeGetters }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .home {
+    background-color: #050E12;
+    padding-top: 50px;
+  }
+</style>

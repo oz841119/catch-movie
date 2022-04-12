@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Microsoft JhengHei;
+}
+
+input {
+  outline: none;
+  border: 0;
+}
+
+li {
+  list-style: none;
+}
