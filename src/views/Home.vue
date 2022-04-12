@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <MovieList title="熱門電影" :targetPath="`${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.popularity}`"/>
-    <MovieList title="榜上佳片" :targetPath="`${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.voteAverage}`"/>
-    <MovieList title="最新上映" :targetPath="`${apiStore.baseURL}/discover/movie?${apiStore.key}${apiStore.release}`"/>
-    <!-- <MovieList title="榜上佳片"/> -->
+    <MovieList title="熱門電影" :targetPath="storeGetters.popularity"/>
+    <MovieList title="榜上佳片" :targetPath="storeGetters.voteAverage"/>
+    <MovieList title="即將上映" showDate="true" :targetPath="storeGetters.comingSoon"/>
+    <MovieList title="已上映" showDate="true" :targetPath="storeGetters.newRelease"/>
   </div>
 </template>
 
@@ -15,9 +15,8 @@ export default {
     MovieList
   },
   setup() {
-    const store = useStore()
-    const apiStore = store.state.api
-    return{ apiStore }
+    const storeGetters = useStore().getters
+    return{ storeGetters }
   }
 }
 </script>

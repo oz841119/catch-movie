@@ -8,6 +8,7 @@
             <img :src="`https://image.tmdb.org/t/p/w185/${item.poster_path}`" alt="">
           </div>
           <div class="movieName">{{item.title}}</div>
+          <div class="date" v-if="props.showDate">{{item.release_date}}</div>
         </div>
       </li>
     </ul>
@@ -19,10 +20,9 @@ import axios from 'axios'
 import { onMounted, reactive } from '@vue/runtime-core'
 
 export default {
-  props: ['title','targetPath'],
+  props: ['title','targetPath', 'showDate'],
   setup(props) {
     const moiveDataArr = reactive({})
-
     onMounted(
       axios({url: props.targetPath})
       .then((response) => {
@@ -31,7 +31,7 @@ export default {
       })
     )
 
-    return {moiveDataArr}
+    return {moiveDataArr, props}
   }
 }
 </script>
@@ -39,6 +39,7 @@ export default {
 <style lang="scss" scoped>
   .movieList {
     padding: 0 60px 0 60px;
+    margin-bottom: 40px;
 
     .title {
       font-size: 32px;
@@ -65,6 +66,12 @@ export default {
             width: 100%;
             height: 100%;
           }
+        }
+
+        .date {
+          text-align: center;
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.634);
         }
         
         .movieName {
