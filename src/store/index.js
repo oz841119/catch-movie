@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import api from './api'
+import movieBox from './movieBox'
 
 export default createStore({
   state: {
@@ -9,6 +10,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    api
+    api,
+    movieBox
   }
 })

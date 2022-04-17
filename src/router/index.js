@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import MovieData from '../components/MovieData.vue'
+
+import MovieBox from '../components/MovieBox'
 
 const routes = [
   {
@@ -10,8 +11,8 @@ const routes = [
     children: [
       {
         path: 'movie/:id',
-        name: 'Movie',
-        component: MovieData,
+        name: 'MovieBox',
+        component: MovieBox,
       }
     ]
   },

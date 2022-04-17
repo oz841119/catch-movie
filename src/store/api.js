@@ -3,7 +3,7 @@ export default {
     baseURL: 'https://api.themoviedb.org/3',
     baseImgURL: 'https://image.tmdb.org/t/p/original',
     key: 'api_key=3439a229755b0ef08c1384ecf4175ab4',
-
+    movieId: '',
     // 當前流行
     popularity_desc: '&language=zh-TW&sort_by=popularity.desc&certification_country=TW&certification=TW&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate&certification_country=TW',
     
@@ -18,6 +18,7 @@ export default {
 
     // 本週熱門
     weekPopularity: '&language=zh-TW&region=TW&sort_by=popularity.desc'
+
   },
   getters: {
     todayDate() { //獲得今天日期 String Ex: 2022-01-01
@@ -47,9 +48,16 @@ export default {
 
     newRelease(state, getters) {
       return `${state.baseURL}/discover/movie?${state.key}${state.release_date_lte}${getters.todayDate}`
-    }
+    },
+
+    movieData(state) {
+      return `${state.baseURL}/movie/${state.movieId}?${state.key}&language=zh-TW&append_to_response=credits`
+    },
   },
   mutations: {
+    getMovieId(state, payload) {
+      state.movieId = payload
+    }
   },
   actions: {
   },

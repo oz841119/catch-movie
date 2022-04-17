@@ -2,7 +2,7 @@
   <div class="movieList">
     <div class="title">{{title}}</div>
     <ul class="list">
-      <li v-for="item in moiveDataArr.value" :key="item.id">
+      <li class="listItem" v-for="item in movieDataArr.value" :key="item.id">
         <router-link :to="/movie/+item.id" class="movieWrap" v-if="item.poster_path">  <!-- API提供的資料會有圖片路徑為null的狀況，圖片路徑為null不做渲染  -->
           <div class="imgWrap">
             <img :src="`https://image.tmdb.org/t/p/w185/${item.poster_path}`" alt="">
@@ -22,16 +22,15 @@ import { onMounted, reactive } from '@vue/runtime-core'
 export default {
   props: ['title','targetPath', 'showDate'],
   setup(props) {
-    const moiveDataArr = reactive({})
+    const movieDataArr = reactive({})
     onMounted(
       axios({url: props.targetPath})
       .then((response) => {
-        moiveDataArr.value = response.data.results
-        console.log(moiveDataArr.value);
+        movieDataArr.value = response.data.results
       })
     )
 
-    return {moiveDataArr, props}
+    return {movieDataArr, props}
   }
 }
 </script>
@@ -52,6 +51,10 @@ export default {
       color: #fff;
       overflow: auto;
       &::-webkit-scrollbar {display:none}
+
+      .listItem {
+        margin-right: 16px;
+      }
 
       .movieWrap {
         min-width: 185px;

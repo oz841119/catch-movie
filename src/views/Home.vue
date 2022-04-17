@@ -21,7 +21,7 @@ export default {
   },
   setup() {
     const storeGetters = useStore().getters
-    return{ storeGetters }
+    return { storeGetters }
   }
 }
 </script>
