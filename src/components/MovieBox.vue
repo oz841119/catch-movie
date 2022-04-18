@@ -8,25 +8,28 @@
       <div class="info">
         <div class="title">
           <div class="movieName">{{movieData.title}}</div>
-          <div class="originalName">( {{movieData.originalTitle}} )</div>
+          <div class="genresList">
+            <span class="genres" v-for="genres in movieData.genres" :key="genres.id">{{genres.name}}</span>
+          </div>
         </div>
+        <div class="originalName">( {{movieData.originalTitle}} )</div>
         <div class="dateAndVote">
           <div class="releasDate">上映日期： {{movieData.releasDate}}</div>
-          <div class="vote">在 {{movieData.voteCount}} 票中，平均獲得 {{movieData.voteAverage}} 分。</div>
+          <div class="vote">從 {{movieData.voteCount}} 個評分內，平均獲得 <span class="voteNum">{{movieData.voteAverage}}</span> 分。</div>
         </div>
-        <div class="tagline">{{movieData.tagline}}</div>
-        <!-- <div>{{movieData.id}}</div> -->
-        <div class="overview">{{movieData.overview}}</div>
+        <div class="tagline">{{movieData.tagline ? movieData.tagline : '未有資料'}}</div>
+        <div class="overview">{{movieData.overview ? movieData.overview : '未有資料'}}</div>
         <div class="actorsWrap">
           <div class="actorsWrapTitle">演員表</div>
           <div class="actorsList">
             <div class="actor" v-for="(actor, index) in movieData.creditsCast" :key="actor.id" v-show="index < showActorsCount">
-              <div>{{actor.name}}</div>
+              <div class="actorName">{{actor.name}}</div>
             </div>
             <div class="checkAllActors" @click="showAllActors" v-show="isShowActorsCountBtn">查看全部</div>
           </div>
         </div>
         <br/>
+        <AboutMovie v-if="isCollection" :movieCollection="movieCollection"/>
       </div>
     </div>
   </div>
@@ -37,36 +40,42 @@
   import axios from "axios";
   import { useRoute, useRouter} from 'vue-router'
   import { useStore } from "vuex";
+  import AboutMovie from './AboutMovie.vue'
+
   const store = useStore()
   const router = useRouter()
   const movieData = reactive({})
   const showActorsCount = ref(5)
   const isShowActorsCountBtn = ref(true)
-
+  const isCollection = ref(false)
+  const movieCollection = ref(null)
+  
   onMounted(() => { 
     store.state.movieBox.isMovieBox = true 
-    console.log(`創建了 不可滾動`);
   })
 
   onMounted(() => {
     store.commit('getMovieId',useRoute().params.id) // 提交電影的ID給Vuex處理目標路徑
     const targetPath = store.getters.movieData
     axios({url: targetPath}).then((res) => {
-      console.log(res.data);
       getMovieInfo(res.data)
+      console.log(res.data);
+      if(res.data.belongs_to_collection) {
+        isCollection.value = true
+        movieCollection.value = res.data.belongs_to_collection.id
+      }
     })
   })
 
   onBeforeUnmount(() => {
     store.state.movieBox.isMovieBox = false
-    console.log(`銷毀了，可滾動。`);
   })
 
   const getMovieInfo = function(movieInfo) {
     if(!movieInfo) return
     movieData.id = movieInfo.id
     movieData.title = movieInfo.title
-    movieData.backdropPath = `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')`
+    movieData.backdropPath = movieInfo.backdrop_path ? `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')` : `url('https://i.stack.imgur.com/6M513.png')`
     movieData.originalTitle = movieInfo.original_title
     movieData.overview = movieInfo.overview
     movieData.releasDate = movieInfo.release_date
@@ -74,7 +83,7 @@
     movieData.voteAverage = movieInfo.vote_average
     movieData.voteCount = movieInfo.vote_count
     movieData.creditsCast = movieInfo.credits.cast
-    console.log(movieData);
+    movieData.genres = movieInfo.genres
   }
 
   const closeMovieBox = function() {
@@ -119,6 +128,7 @@
         height: $bgBaseSize*9;
         background-image: linear-gradient(to bottom, rgba(24, 24, 24, .0) 70%, rgba(24, 24, 24, 1) 100%), v-bind('movieData.backdropPath');
         background-size: contain;
+        background-repeat: no-repeat;
         position: relative;
 
         .closeBtn {
@@ -144,20 +154,36 @@
         .title {
           display: flex;
           align-items: flex-end;
+          justify-content: space-between;
 
           .movieName {
             font-size: 36px;
             font-weight: 700;
           }
 
-          .originalName {
-            margin-left: 10px;
+          .genresList {
+            .genres {
+              border: 1px solid #fff;
+              padding: 0 2px 0 2px;
+              margin-left: 8px;
+              font-size: 12px;
+            }
           }
         }
 
         .dateAndVote {
           display: flex;
           justify-content: space-between;
+          font-size: 12px;
+
+          .vote {
+            color: #46d369;
+
+            .voteNum {
+              font-weight: 700;
+              font-size: 16px;
+            }
+          }
         }
 
         .tagline {
@@ -166,11 +192,11 @@
         }
 
         .overview {
-          margin-top: 30px;
+          padding: 30px 0 30px 0;
+          font-size: 14px;
         }
 
         .actorsWrap {
-          margin-top: 30px;
 
           .actorsWrapTitle {
             font-weight: 700;
@@ -184,6 +210,13 @@
 
             .actor {
               margin-right: 20px;
+
+              .actorName {
+                padding: 0 6px 0 6px;
+                border: 1px solid #fff;
+                font-size: 14px;
+                margin-bottom: 10px
+              }
             }
 
             .checkAllActors {

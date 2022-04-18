@@ -3,7 +3,7 @@ export default {
     baseURL: 'https://api.themoviedb.org/3',
     baseImgURL: 'https://image.tmdb.org/t/p/original',
     key: 'api_key=3439a229755b0ef08c1384ecf4175ab4',
-    movieId: '',
+    movieId: '', // 問題： 當Box被關閉的時候，movie的ID仍然會殘留在Vuex，雖暫時沒有察覺到影響使用的地方。
     // 當前流行
     popularity_desc: '&language=zh-TW&sort_by=popularity.desc&certification_country=TW&certification=TW&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate&certification_country=TW',
     
@@ -54,13 +54,22 @@ export default {
       return `${state.baseURL}/movie/${state.movieId}?${state.key}&language=zh-TW&append_to_response=credits`
     },
   },
+
   mutations: {
     getMovieId(state, payload) {
       state.movieId = payload
     }
   },
+
   actions: {
+    getMovieCollectionURL(context, payload) { // 獲取完整的url
+      const state = context.state
+      const url = `${state.baseURL}/collection/${payload}?${state.key}&language=zh-TW`
+      console.log(123);
+      return url
+    }
   },
+
   modules: {
   }
 }

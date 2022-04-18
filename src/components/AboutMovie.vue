@@ -1,0 +1,88 @@
+<template>
+  <div class="aboutMovie">
+    <div class="title">系列集</div>
+    <div class="movieList">
+      <div class="movieWrap" v-for="movie in movieList" :key="movie.id">
+        <div class="imgWrap">
+          <img class="img" :src="movie.poster_path" alt="">
+        </div>
+        <div class="info">
+          <div class="movieName">{{movie.title}}</div>
+          <div class="movieRelease">( {{movie.release_date ? movie.release_date : '未上映'}} )</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { onMounted, reactive, ref } from '@vue/runtime-core'
+import { useStore } from 'vuex'
+import axios from 'axios'
+
+export default {
+  props: ['movieCollection'],
+  setup(props) {
+    const store = useStore()
+    const targetPatch = ref('')
+    const movieList = reactive([])
+    
+    const getTargetPatch = () => {
+      store.dispatch('getMovieCollectionURL', props.movieCollection)
+      .then(res => {
+        targetPatch.value = res
+        axios({url: targetPatch.value}).then((res) => {
+          res.data.parts.forEach(movieData => {
+            if(movieData.id != store.state.api.movieId) { // 如果API回傳的電影id與當前Box的id一致時，則跳過添加
+            console.log(movieList);
+              movieData.poster_path = `${store.state.api.baseImgURL}${movieData.poster_path}` 
+              movieList.push(movieData)
+            }
+          })
+        })
+      })
+    }
+
+    onMounted(getTargetPatch)
+
+    return { movieList }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  .aboutMovie {
+    .title {
+      font-weight: 700;
+    }
+
+    .movieList {
+      margin-top: 8px;
+      display: flex;
+
+      .movieWrap {
+        margin-right: 16px;
+        .imgWrap {
+          width: 185px;
+          height: 278px;
+
+          .img {
+            width: 100%;
+          }
+        }
+
+        .info {
+          text-align: center;
+          .movieName {
+            margin-top: 8px;
+            font-size: 14px;
+          }
+
+          .movieRelease {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+</style>
