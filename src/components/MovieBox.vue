@@ -97,7 +97,7 @@
     isShowActorsCountBtn.value = false
   }
 
-  console.log(test);
+  console.log(te);
 </script>
 
 <style lang="scss" scoped>
