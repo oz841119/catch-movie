@@ -96,8 +96,6 @@
     showActorsCount.value = movieData.creditsCast.length
     isShowActorsCountBtn.value = false
   }
-
-  console.log(te);
 </script>
 
 <style lang="scss" scoped>
