@@ -4,6 +4,7 @@ import movieBox from './movieBox'
 
 export default createStore({
   state: {
+    isMovieBox: false
   },
   mutations: {
   },

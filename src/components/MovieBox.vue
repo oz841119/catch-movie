@@ -44,6 +44,7 @@
 
   const store = useStore()
   const router = useRouter()
+  const route = useRoute()
   const movieData = reactive({})
   const showActorsCount = ref(5)
   const isShowActorsCountBtn = ref(true)
@@ -87,7 +88,8 @@
   }
 
   const closeMovieBox = function() {
-    router.go(-1)
+    console.log(route.path);
+    router.push('/')
   }
 
   const showAllActors = function() {

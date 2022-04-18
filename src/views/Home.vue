@@ -5,7 +5,7 @@
     <MovieList title="榜上佳片" :targetPath="storeGetters.voteAverage"/>
     <MovieList title="即將上映" showDate="true" :targetPath="storeGetters.comingSoon"/>
     <MovieList title="已上映" showDate="true" :targetPath="storeGetters.newRelease"/>
-    <router-view></router-view>
+    <router-view/>
   </div>
 </template>
 
