@@ -125,7 +125,7 @@
       color: #fff;
       overflow: auto;
       background-color: #181818;
-
+    
       .bgImgWrap {
         height: $bgBaseSize*9;
         background-image: linear-gradient(to bottom, rgba(24, 24, 24, .0) 70%, rgba(24, 24, 24, 1) 100%), v-bind('movieData.backdropPath');
