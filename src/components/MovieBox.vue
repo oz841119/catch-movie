@@ -9,7 +9,7 @@
         <div class="title">
           <div class="movieName">{{movieData.title}}</div>
           <div class="genresList">
-            <span class="genres" v-for="genres in movieData.genres" :key="genres.id">{{genres.name}}</span>
+            <span class="genres" v-for="genres in movieData.genres" :key="genres.id">{{toTC(genres.name)}}</span>
           </div>
         </div>
         <div class="originalName">( {{movieData.originalTitle}} )</div>
@@ -41,6 +41,7 @@
   import { useRoute, useRouter} from 'vue-router'
   import { useStore } from "vuex";
   import AboutMovie from './AboutMovie.vue'
+  import toTC from '../assets/script/traditionalized.js'
 
   const store = useStore()
   const router = useRouter()
@@ -165,6 +166,7 @@
 
           .genresList {
             .genres {
+              font-variant-east-asian: traditional;
               border: 1px solid #fff;
               padding: 0 2px 0 2px;
               margin-left: 8px;
