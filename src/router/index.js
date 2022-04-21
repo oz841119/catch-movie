@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import SearchMovie from '../views/SearchMovie'
 
 import MovieBox from '../components/MovieBox'
 
@@ -16,6 +17,11 @@ const routes = [
       }
     ]
   },
+    {
+      name: 'SearchMovie',
+      path: '/search',
+      component: SearchMovie
+    }
   // {
   //   path: '/about',
   //   name: 'About',
