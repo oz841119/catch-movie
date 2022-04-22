@@ -11,6 +11,7 @@ import Footer from './components/Footer.vue'
 import './assets/style/reset.css'
 import { watch } from '@vue/runtime-core'
 import { useStore } from "vuex";
+import './assets/style/base.css'
 
 export default {
   components: {
