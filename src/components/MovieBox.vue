@@ -57,11 +57,10 @@
   })
 
   onMounted(() => {
-    store.commit('getMovieId',useRoute().params.id) // 提交電影的ID給Vuex處理目標路徑
+    store.commit('getMovieId', route.params.id || route.query.id) // 提交電影的ID給Vuex處理目標路徑，傳參或是vuex管理movieID尚有缺陷，先使用判斷URL的方式傳參
     const targetPath = store.getters.movieData
     axios({url: targetPath}).then((res) => {
       getMovieInfo(res.data)
-      console.log(res.data);
       if(res.data.belongs_to_collection) {
         isCollection.value = true
         movieCollection.value = res.data.belongs_to_collection.id
@@ -89,8 +88,7 @@
   }
 
   const closeMovieBox = function() {
-    console.log(route.path);
-    router.push('/')
+    route.params.id ? router.push('/') : router.push(`/search?query=${route.query.query}`)
   }
 
   const showAllActors = function() {

@@ -14,6 +14,7 @@ export default {
     const router = useRouter()
     const submit = function() {
       let searchContent = inp.value
+      console.log('Submit');
       router.push({ path: `search`, query: { query: searchContent }}) 
     }
 
