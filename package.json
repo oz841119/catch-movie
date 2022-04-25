@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "postbuild": "cp catch-movie/index.html catch-movie/404.html",
+    "postbuild": "cp dist/index.html dist/404.html",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
