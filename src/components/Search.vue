@@ -1,24 +1,38 @@
 <template>
-  <div class="search">
-    <input class="inp" id="inp" type="search" placeholder="輸入電影名稱" autocomplete="off" v-on:keyup.enter="submit()">
+  <form class="search" :class="{'errBounce': isErrBounce}" @submit.native.prevent>
+    <input class="inp" id="inp" type="search" placeholder="輸入電影名稱" autocomplete="off" @submit.native.prevent>
     <div class="serachIconWrap" @click="submit()" value=""><i class="uil uil-search searchIcon"></i></div>
-  </div>
+    <input class="inputSubmit" type="submit" @click="submit()"> <!-- display: none 提供用戶按下Enter時提交表單用 -->
+  </form>
 </template>
 
 <script>
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
 export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    let isErrBounce = ref(false)
+    
     const submit = function() {
-      let searchContent = inp.value
-      console.log('Submit');
+      let searchContent = inp.value.trim()
+
+      if(!searchContent) {
+        isErrBounce.value = true
+        inp.value = ''
+        setTimeout(() => {
+          isErrBounce.value = false
+        },800)
+        return
+      }
+
       router.push({ path: `search`, query: { query: searchContent }}) 
+      inp.value = ''
     }
 
-    return { submit }
+    return { submit, isErrBounce }
   }
 }
 </script>
@@ -60,5 +74,23 @@ export default {
         color: #fff;
       }
     }
+  }
+
+  .inputSubmit {
+    display: none;
+  }
+
+  // 輸入框錯誤提示
+  .errBounce {
+    animation: shake 800ms ease-in-out;
+    border: 1px rgb(255, 86, 86) solid;
+  }
+
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0) }
+    20%, 80% { transform: translate3d(+2px, 0, 0) }
+    30%, 70% { transform: translate3d(-4px, 0, 0) }
+    40%, 60% { transform: translate3d(+4px, 0, 0) }
+    50% { transform: translate3d(-4px, 0, 0) }
   }
 </style>
