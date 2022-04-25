@@ -41,9 +41,9 @@ export default {
     margin-top: 40px;
 
     .title {
-      font-size: 32px;
-      color: #fff;
-      margin-bottom: 18px;
+      font-size: var(--title-main-size);
+      color: var(--title-main-color);
+      margin-bottom: var(--title-main-mb)
     }
 
     .list {
@@ -80,10 +80,10 @@ export default {
           color: rgba(255, 255, 255, 0.634);
         }
         
-        .movieName {
-          font-size: 14px;
+        .movieName {  
           text-align: center;
-          margin-top: 8px;
+          font-size: var(--movie-name-size);
+          margin-top: var(--movie-name-mt);
         }
       }
 

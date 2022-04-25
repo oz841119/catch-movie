@@ -28,7 +28,7 @@ export default {
 
 <style lang="scss" scoped>
   .home {
-    background-color: #050E12;
+    background-color: var(--bg-main-color);
     padding-top: 50px;
   }
 </style>

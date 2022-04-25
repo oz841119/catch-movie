@@ -65,7 +65,12 @@ export default {
     getMovieCollectionURL(context, payload) { // 獲取完整的url
       const state = context.state
       const url = `${state.baseURL}/collection/${payload}?${state.key}&language=zh-TW`
-      console.log(123);
+      return url
+    },
+
+    getSearchURL(context, payload) {
+      const state = context.state
+      const url = `${state.baseURL}/search/movie?${state.key}&language=zh-TW&query=${payload}`
       return url
     }
   },

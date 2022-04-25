@@ -9,7 +9,7 @@
         <div class="title">
           <div class="movieName">{{movieData.title}}</div>
           <div class="genresList">
-            <span class="genres" v-for="genres in movieData.genres" :key="genres.id">{{genres.name}}</span>
+            <span class="genres" v-for="genres in movieData.genres" :key="genres.id">{{toTC(genres.name)}}</span>
           </div>
         </div>
         <div class="originalName">( {{movieData.originalTitle}} )</div>
@@ -41,6 +41,7 @@
   import { useRoute, useRouter} from 'vue-router'
   import { useStore } from "vuex";
   import AboutMovie from './AboutMovie.vue'
+  import toTC from '../assets/script/traditionalized.js'
 
   const store = useStore()
   const router = useRouter()
@@ -56,11 +57,10 @@
   })
 
   onMounted(() => {
-    store.commit('getMovieId',useRoute().params.id) // 提交電影的ID給Vuex處理目標路徑
+    store.commit('getMovieId', route.params.id || route.query.id) // 提交電影的ID給Vuex處理目標路徑，傳參或是vuex管理movieID尚有缺陷，先使用判斷URL的方式傳參
     const targetPath = store.getters.movieData
     axios({url: targetPath}).then((res) => {
       getMovieInfo(res.data)
-      console.log(res.data);
       if(res.data.belongs_to_collection) {
         isCollection.value = true
         movieCollection.value = res.data.belongs_to_collection.id
@@ -88,8 +88,7 @@
   }
 
   const closeMovieBox = function() {
-    console.log(route.path);
-    router.push('/')
+    route.params.id ? router.push('/') : router.push(`/search?query=${route.query.query}`)
   }
 
   const showAllActors = function() {
@@ -104,6 +103,7 @@
   .movieBox {
     position: fixed;
     top: 0;
+    left: 0;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -125,7 +125,7 @@
       color: #fff;
       overflow: auto;
       background-color: #181818;
-
+    
       .bgImgWrap {
         height: $bgBaseSize*9;
         background-image: linear-gradient(to bottom, rgba(24, 24, 24, .0) 70%, rgba(24, 24, 24, 1) 100%), v-bind('movieData.backdropPath');
@@ -165,6 +165,7 @@
 
           .genresList {
             .genres {
+              font-variant-east-asian: traditional;
               border: 1px solid #fff;
               padding: 0 2px 0 2px;
               margin-left: 8px;
