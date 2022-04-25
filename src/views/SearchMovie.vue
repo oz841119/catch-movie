@@ -4,7 +4,6 @@
     <ul class="movieList">
       <li class="listItem" v-for="movie in movieDataList">
         <router-link class="movieWrap" :to="{patch: 'search', query: {query: route.query.query, id: movie.id}}">
-        <!-- <router-link class="movieWrap" :to="'/search' + '?query=' + route.query.query + '&id=' + movie.id"> -->
           <div class="imgWrap">
             <img :src="`https://image.tmdb.org/t/p/w185/${movie.poster_path}`" alt="">
           </div>
@@ -12,8 +11,8 @@
         </router-link>
       </li>
     </ul>
+    <MovieBox v-if="isMovieBox"/>
   </div>
-  <MovieBox v-if="isMovieBox"/>
 </template>
 
 <script>

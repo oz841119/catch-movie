@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <NavBar/>
-    <router-view></router-view>
+    <router-view class="main"></router-view>
     <Footer/>
   </div>
 </template>
@@ -38,6 +38,13 @@ export default {
 }
 </script>
 
-<style scoped>
-  
+<style scoped lang="scss">
+
+  .app {
+    background-color: var(--bg-main-color);
+
+    .main {
+      min-height: 75vh;
+    }
+  }
 </style>
