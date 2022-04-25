@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <input class="inp" id="inp" type="search" placeholder="輸入電影名稱"> 
+    <input class="inp" id="inp" type="search" placeholder="輸入電影名稱" autocomplete="off" v-on:keyup.enter="submit()">
     <div class="serachIconWrap" @click="submit()" value=""><i class="uil uil-search searchIcon"></i></div>
   </div>
 </template>
@@ -28,30 +28,35 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 475px;
-    height: 38px;
-    background-color: rgba(196, 196, 196, .3);
+    width: 300px;
+    height: 34px;
+    // background-color: rgb(191, 191, 191);
+    border: 1px #fff solid;
     border-radius: 8px;
-    padding: 0 28px 0 28px;
 
     .inp {
       width: 100%;
       height: 100%;
-      background-color: rgba(196, 196, 196, 0);
-      font-size: 20px;
+      padding: 0 6px 0 12px;
+      background-color: transparent;
+      font-size: 14px;
       color: #fff;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.715);
+      }
     }
 
     .serachIconWrap {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 38px;
-      height: 38px;
+      height: 100%;
       cursor: pointer;
+      margin-right: 12px;
 
       .searchIcon {
-        font-size: 28px;
+        font-size: 20px;
         color: #fff;
       }
     }
