@@ -37,13 +37,13 @@ export default {
 
 <style lang="scss" scoped>
   .movieList {
-    padding: 0 60px 0 60px;
-    margin-top: 40px;
+    // padding: var(--movieList-wrap-pd);
+    margin-bottom: 40px;
 
     .title {
       font-size: var(--title-main-size);
       color: var(--title-main-color);
-      margin-bottom: var(--title-main-mb)
+      margin-bottom: var(--title-main-mb);
     }
 
     .list {
@@ -57,20 +57,19 @@ export default {
       }
 
       .movieWrap {
-        min-width: 185px;
-        // height: 356px;
-        margin-right: 28px;
+        width: var(--movie-wrap-w);
+        margin-right: var(--movie-wrap-mr);
         cursor: pointer;
         color: #fff;
         text-decoration: none;
 
         .imgWrap {
-          width: 185px;
-          height: 278px;
+          width: var(--movie-wrap-w);
+          height: var(--poster-h);
 
           img {
-            width: 100%;
-            height: 100%;
+            width: var(--movie-wrap-w);
+            height: var(--poster-h)
           }
         }
 

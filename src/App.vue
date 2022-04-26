@@ -33,7 +33,7 @@ export default {
           document.removeEventListener("touchmove",m,{ passive:true });
       } 
     })
-    return {  }
+    return {}
   }
 }
 </script>
@@ -41,10 +41,14 @@ export default {
 <style scoped lang="scss">
 
   .app {
+    display: flex;
+    flex-direction: column;
     background-color: var(--bg-main-color);
+    min-height: 100vh;
 
     .main {
-      min-height: 75vh;
+      flex: 1;
+      padding: var(--movieList-wrap-pd);
     }
   }
 </style>

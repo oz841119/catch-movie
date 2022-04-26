@@ -42,8 +42,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 300px;
-    height: 34px;
+    width: var(--input-wrap-w);
+    height: 60%;
     // background-color: rgb(191, 191, 191);
     border: 1px #fff solid;
     border-radius: 8px;
@@ -53,7 +53,7 @@ export default {
       height: 100%;
       padding: 0 6px 0 12px;
       background-color: transparent;
-      font-size: 14px;
+      font-size: var(--input-font-size);
       color: #fff;
 
       &::placeholder {
@@ -70,7 +70,7 @@ export default {
       margin-right: 12px;
 
       .searchIcon {
-        font-size: 20px;
+        font-size: var(--input-font-size);
         color: #fff;
       }
     }

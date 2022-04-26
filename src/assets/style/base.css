@@ -3,11 +3,56 @@
   /* 塊級顏色 */
   --bg-main-color: #050E12;
 
-  /* 文字 */
   --title-main-color: #fff;
-  --title-main-size: 32px;
-  --title-main-mb: 18px;
 
+  --title-web-size: 32px;
+  --title-main-size: 32px;
   --movie-name-size: 14px;
+
+  --title-main-mb: 14px;
   --movie-name-mt: 8px;
+
+  --nav-wrap-pd: 0 60px 0 60px;
+  --nav-wrap-h: 8vh;
+
+  --movieList-wrap-pd: 60px 60px 0 60px;
+  --movie-wrap-w: 185px;
+  --movie-wrap-mr: 28px;
+
+  --input-wrap-w: 300px;
+  --input-font-size: 16px;
+
+  --poster-h: 278px;
+}
+
+@media screen and (max-width: 1000px) {
+  :root {
+    --title-web-size: 26px;
+    --title-main-size: 20px;
+
+    --nav-wrap-pd: 0 20px 0 20px;
+    --nav-wrap-h: 6.5vh;
+
+    --movieList-wrap-pd: 60px 20px 0 20px;
+    --movie-wrap-w: 150px;
+    --movie-wrap-mr: 16px;
+
+    --input-wrap-w: 200px;
+    --input-font-size: 14px;
+
+    --poster-h: 225px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  :root {
+    --title-web-size: 18px;
+    --title-main-size: 16px;
+    --movie-name-size: 12px;
+
+    --nav-wrap-h: 5vh;
+
+    --input-wrap-w: 150px;
+    --input-wrap-size: 12px;
+  }
 }

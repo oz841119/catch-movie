@@ -133,6 +133,10 @@
         background-repeat: no-repeat;
         position: relative;
 
+        @media screen and (max-width: 900px) {
+          height: 100vw / 15 * 9;
+        }
+
         .closeBtn {
           width: 36px;
           height: 36px;

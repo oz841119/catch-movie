@@ -71,34 +71,36 @@ export default {
 
 <style lang="scss" scoped>
   .searchMovie {
-    width: 100%;
-    padding: 0 60px 0 60px;
+    display: flex;
+    flex-direction: column;
+    // width: 100%;
     padding-top: 50px;
     background-color: var(--bg-main-color);
 
     .title {
       font-size: var(--title-main-size);
       color: var(--title-main-color);
-      margin-bottom: var(--title-main-mb)
+      margin-bottom: var(--title-main-mb);
+      
     }
     .movieList {
       display: flex;
       flex-wrap: wrap;
-      margin-top: 40px;
+      // justify-content: space-between;
       .listItem {
-        width: 185px;
-        margin-right: 28px;
+        width: var(--movie-wrap-w);
+        margin-right: var(--movie-wrap-mr);
         margin-bottom: 40px;
 
         .movieWrap {
 
           .imgWrap {
-            width: 185px;
-            height: 278px;
+            width: var(--movie-wrap-w);
+            height: var(--poster-h);
 
             img {
-              height: 100%;
-              width: 100%;
+              width: var(--movie-wrap-w);
+              height: var(--poster-h);
             }
           }
 

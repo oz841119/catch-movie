@@ -19,18 +19,14 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 10vh;
-    padding: 0 60px 0 60px;
+    height: var(--nav-wrap-h);
+    padding: var(--nav-wrap-pd);
     background-color: #1A1F38;
-
-    @media screen and (max-width: 800px) {
-      height: 50px;
-    }
 
     .title {
       color: #fff;
       font-weight: 700;
-      font-size: 36px;
+      font-size: var(--title-web-size);
     }
   }
 </style>
