@@ -21,19 +21,19 @@ export default {
 
   setup() {
     const store = useStore()
-    watch(() => store.state.movieBox.isMovieBox,
+
+    watch(() => store.state.movieBox.isMovieBox, // 移動端有問題(safari,chrome)
     () => {
       if(store.state.movieBox.isMovieBox) {
           let m = function(e){e.preventDefault();};
           document.body.style.overflow='hidden';
-          document.addEventListener("touchmove",m,{ passive:false });
+          // document.addEventListener("touchmove",m,{ passive:false });
       } else {
           let m =function(e){e.preventDefault();};
           document.body.style.overflow='';
-          document.removeEventListener("touchmove",m,{ passive:true });
-      } 
+          // document.removeEventListener("touchmove",m,{ passive:true });
+      }
     })
-    return {}
   }
 }
 </script>
