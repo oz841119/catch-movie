@@ -59,15 +59,20 @@ export default {
     .movieList {
       margin-top: 8px;
       display: flex;
+      flex-wrap: wrap;
 
       .movieWrap {
-        margin-right: 16px;
+        width: var(--movie-wrap-w);
+        margin-right: var(--movie-wrap-mr);
+        margin-bottom: 40px;
+
         .imgWrap {
-          width: 185px;
-          height: 278px;
+          width: var(--movie-wrap-w);
+          height: var(--poster-h);
 
           .img {
-            width: 100%;
+            width: var(--movie-wrap-w);
+            height: var(--poster-h);
           }
         }
 

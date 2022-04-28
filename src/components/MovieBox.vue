@@ -17,7 +17,7 @@
           <div class="releasDate">上映日期： {{movieData.releasDate}}</div>
           <div class="vote">從 {{movieData.voteCount}} 個評分內，平均獲得 <span class="voteNum">{{movieData.voteAverage}}</span> 分。</div>
         </div>
-        <div class="tagline">{{movieData.tagline ? movieData.tagline : '未有資料'}}</div>
+        <div class="tagline">{{movieData.tagline ? movieData.tagline : ''}}</div>
         <div class="overview">{{movieData.overview ? movieData.overview : '未有資料'}}</div>
         <div class="actorsWrap">
           <div class="actorsWrapTitle">演員表</div>
@@ -155,22 +155,29 @@
       .info {
         width: 100%;
         // height: 100%;
-        padding: 0 46px 0 46px;
+        padding: var(--moviebox-info-pd);
+
 
         .title {
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
 
+          // @media screen and (max-width: 1000px){
+          //   flex-direction: column;
+          // }
+
           .movieName {
-            font-size: 36px;
+            font-size: var(--title-main-size);
+            color: var(--title-main-color);
             font-weight: 700;
           }
 
           .genresList {
             .genres {
               font-variant-east-asian: traditional;
-              border: 1px solid #fff;
+              border: 1px solid rgba(255, 255, 255, 0.446);
+              color: rgba(255, 255, 255, 0.446);
               padding: 0 2px 0 2px;
               margin-left: 8px;
               font-size: 12px;
@@ -178,10 +185,18 @@
           }
         }
 
+        .originalName {
+          font-size: 12px;
+        }
+
         .dateAndVote {
           display: flex;
           justify-content: space-between;
           font-size: 12px;
+
+          @media screen and (max-width: 1000px) {
+            flex-direction: column;
+          }
 
           .vote {
             color: #46d369;
@@ -200,7 +215,7 @@
 
         .overview {
           padding: 30px 0 30px 0;
-          font-size: 14px;
+          font-size: var(--moviebox-overview-font-size);
         }
 
         .actorsWrap {
