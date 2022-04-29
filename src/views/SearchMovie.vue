@@ -1,6 +1,8 @@
 <template>
   <div class="searchMovie">
-    <div class="title">{{route.query.query}}</div>
+    <div class="title">您搜尋的結果： 
+      <span class="queryContent">{{route.query.query}}</span>
+    </div>
     <ul class="movieList">
       <li class="listItem" v-for="movie in movieDataList">
         <router-link class="movieWrap" :to="{patch: 'search', query: {query: route.query.query, id: movie.id}}">
@@ -10,6 +12,9 @@
           <div class="movieName">{{movie.title}}</div>
         </router-link>
       </li>
+      <div class="filler"></div>
+      <div class="filler"></div>
+      <div class="filler"></div>
     </ul>
     <MovieBox v-if="isMovieBox"/>
   </div>
@@ -81,18 +86,35 @@ export default {
       font-size: var(--title-main-size);
       color: var(--title-main-color);
       margin-bottom: var(--title-main-mb);
+
+      .queryContent {
+        color: rgba(255, 255, 255, 0.668);
+      }
       
     }
     .movieList {
       display: flex;
       flex-wrap: wrap;
-      // justify-content: space-between;
-      .listItem {
-        width: var(--movie-wrap-w);
-        margin-right: var(--movie-wrap-mr);
+      justify-content: space-between;
+
+      @media screen and (max-width: 530px) {
+        justify-content: space-around
+      }
+      
+      .filler {
+        width: calc(var(--movie-wrap-w) + 15px);
+        margin-bottom: 40px;
+        height: 0;
+      }
+
+      .listItem, .filler {
+        width: calc(var(--movie-wrap-w) + 15px);
         margin-bottom: 40px;
 
         .movieWrap {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
 
           .imgWrap {
             width: var(--movie-wrap-w);
