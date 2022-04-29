@@ -76,7 +76,8 @@
     if(!movieInfo) return
     movieData.id = movieInfo.id
     movieData.title = movieInfo.title
-    movieData.backdropPath = movieInfo.backdrop_path ? `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')` : `url('https://i.stack.imgur.com/6M513.png')`
+    // movieData.backdropPath = movieInfo.backdrop_path ? `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')` : `url('https://i.stack.imgur.com/6M513.png')`
+    movieData.backdropPath = movieInfo.backdrop_path ? `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')` : `url('/images/noImg.jpg')`
     movieData.originalTitle = movieInfo.original_title
     movieData.overview = movieInfo.overview
     movieData.releasDate = movieInfo.release_date
