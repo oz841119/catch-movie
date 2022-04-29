@@ -1,6 +1,6 @@
 <template>
   <div class="navBar">
-    <div class="title">Catch Movie</div>
+    <a class="title" href="/">Catch Movie</a>
     <Search/>
   </div>
 </template>
@@ -27,6 +27,7 @@ export default {
       color: #fff;
       font-weight: 700;
       font-size: var(--title-web-size);
+      cursor: pointer;
     }
   }
 </style>
