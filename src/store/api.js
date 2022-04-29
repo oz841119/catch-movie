@@ -1,7 +1,7 @@
 export default {
   state: {
     baseURL: 'https://api.themoviedb.org/3',
-    baseImgURL: 'https://image.tmdb.org/t/p/original',
+    baseImgURL: 'https://image.tmdb.org/t/p/w1280',
     key: 'api_key=3439a229755b0ef08c1384ecf4175ab4',
     movieId: '', // 問題： 當Box被關閉的時候，movie的ID仍然會殘留在Vuex，雖暫時沒有察覺到影響使用的地方。
     // 當前流行
