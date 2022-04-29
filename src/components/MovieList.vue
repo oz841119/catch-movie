@@ -18,15 +18,18 @@
 <script>
 import axios from 'axios'
 import { onMounted, reactive } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 
 export default {
   props: ['title','targetPath', 'showDate'],
   setup(props) {
     const movieDataArr = reactive({})
+    const store = useStore()
     onMounted(
       axios({url: props.targetPath})
       .then((response) => {
         movieDataArr.value = response.data.results
+        store.commit('toggleIsPageLoading', false)
       })
     )
 
