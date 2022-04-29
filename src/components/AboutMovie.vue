@@ -60,6 +60,11 @@ export default {
       margin-top: 8px;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
+
+      @media screen and (max-width: 538px) {
+        justify-content: center;
+      }
 
       .movieWrap {
         width: var(--movie-wrap-w);
