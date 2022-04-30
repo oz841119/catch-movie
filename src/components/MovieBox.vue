@@ -2,6 +2,7 @@
   <div class="movieBox">
     <div class="masking"></div>
     <div class="movieWrap">
+      <div class="_loader loagind" v-show="isLoading"></div>
       <div class="bgImgWrap">
         <div class="closeBtn" @click="closeMovieBox()">X</div>
       </div>
@@ -42,6 +43,7 @@
   import { useStore } from "vuex";
   import AboutMovie from './AboutMovie.vue'
   import toTC from '../assets/script/traditionalized.js'
+  import '../assets/style/loader.css'
 
   const store = useStore()
   const router = useRouter()
@@ -51,6 +53,7 @@
   const isShowActorsCountBtn = ref(true)
   const isCollection = ref(false)
   const movieCollection = ref(null)
+  const isLoading = ref(true)
   
   onMounted(() => { 
     store.state.movieBox.isMovieBox = true 
@@ -65,6 +68,7 @@
         isCollection.value = true
         movieCollection.value = res.data.belongs_to_collection.id
       }
+      isLoading.value = false
     })
   })
 
@@ -126,6 +130,12 @@
       color: #fff;
       overflow: auto;
       background-color: #181818;
+
+      .loagind {
+        position: absolute;
+        // top: 50%;
+        left: 50%;
+      }
     
       .bgImgWrap {
         height: $bgBaseSize*9;

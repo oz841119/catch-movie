@@ -3,6 +3,8 @@
     <div class="title">您搜尋的結果： 
       <span class="queryContent">{{route.query.query}}</span>
     </div>
+    <div class="_loader" v-show="isLoading"></div>
+    <div v-show="isNoData" class="noData">搜尋不到電影</div>
     <ul class="movieList">
       <li class="listItem" v-for="movie in movieDataList">
         <router-link class="movieWrap" :to="{patch: 'search', query: {query: route.query.query, id: movie.id}}">
@@ -26,6 +28,7 @@ import { onBeforeRouteUpdate, useRoute } from "vue-router"
 import { useStore } from "vuex"
 import { reactive, ref, watch } from "vue"
 import MovieBox from '../components/MovieBox.vue'
+import '../assets/style/loader.css'
 
 
 export default {
@@ -33,10 +36,12 @@ export default {
     MovieBox,
   },
   setup() {
+    const isLoading = ref(true)
     const route = useRoute()
     const store = useStore()
     const movieDataList = reactive([])
-    const isMovieBox = ref(false)
+    const isMovieBox = ref(true)
+    const isNoData = ref(false)
 
     route.query.id ? isMovieBox.value = true : isMovieBox.value = false
     getMovies()
@@ -50,26 +55,37 @@ export default {
     })
 
     function getMovies(queryString = null) {
+      isLoading.value = true
       movieDataList.length = 0
+      isNoData.value = false
       store.dispatch('getSearchURL', queryString || route.query.query)
       .then(URLres => {
         axios({url: URLres})
         .then(APIres => {
           const movieApiDataArr = APIres.data.results
+          if(APIres.data.results.length === 0) {
+            isNoData.value = true
+          }
           movieApiDataArr.forEach((movie) => {
             movie.backdrop_path && movieDataList.push(movie) // 沒有海報則不成為搜尋結果
           })
+          isLoading.value = false
         })
+      })
+      .catch(() => {
+        isLoading.value = false
+        console.log('請求異常');
       })
     } 
 
     function isSameQuery(newQuery, oldQuery) {
       if(newQuery != oldQuery) {
+        isMovieBox.value = true
         getMovies(newQuery)
       }
     }
 
-    return { movieDataList, route, MovieBox, isMovieBox }
+    return { movieDataList, route, MovieBox, isMovieBox, isLoading, isNoData }
   },
 }
 </script>
@@ -81,6 +97,10 @@ export default {
     // width: 100%;
     padding-top: 50px;
     background-color: var(--bg-main-color);
+
+    .noData {
+      color: rgba(255, 255, 255, 0.636);
+    }
 
     .title {
       font-size: var(--title-main-size);

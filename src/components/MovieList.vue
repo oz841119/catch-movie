@@ -2,6 +2,7 @@
   <div class="movieList">
     <div class="title">{{title}}</div>
     <div v-if="noData" class="noData">無法取得資料</div>
+    <div class="_loader" v-show="isLoading"></div>
     <ul class="list">
       <li class="listItem" v-for="item in movieDataArr.value" :key="item.id">
         <router-link :to="/movie/+item.id" class="movieWrap" v-if="item.poster_path">  <!-- API提供的資料會有圖片路徑為null的狀況，圖片路徑為null不做渲染  -->
@@ -20,6 +21,7 @@
 import axios from 'axios'
 import { onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import '../assets/style/loader.css'
 
 export default {
   props: ['title','targetPath', 'showDate'],
@@ -27,18 +29,21 @@ export default {
     const movieDataArr = reactive([])
     const store = useStore()
     const noData = ref(false)
+    const isLoading = ref(true)
+
     onMounted(
       axios({url: props.targetPath})
       .then((response) => {
         movieDataArr.value = response.data.results
-        store.commit('toggleIsPageLoading', false)
+        isLoading.value = false
       })
       .catch(() => {
         noData.value = true
+        isLoading.value = false
       })
     )
 
-    return {movieDataArr, props, noData}
+    return {movieDataArr, props, noData, isLoading}
   }
 }
 </script>
@@ -47,7 +52,6 @@ export default {
   .movieList {
     // padding: var(--movieList-wrap-pd);
     margin-bottom: 40px;
-
     .title {
       font-size: var(--title-main-size);
       color: var(--title-main-color);
