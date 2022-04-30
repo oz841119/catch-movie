@@ -1,6 +1,7 @@
 <template>
   <div class="movieList">
     <div class="title">{{title}}</div>
+    <div v-if="noData" class="noData">無法取得資料</div>
     <ul class="list">
       <li class="listItem" v-for="item in movieDataArr.value" :key="item.id">
         <router-link :to="/movie/+item.id" class="movieWrap" v-if="item.poster_path">  <!-- API提供的資料會有圖片路徑為null的狀況，圖片路徑為null不做渲染  -->
@@ -17,23 +18,27 @@
 
 <script>
 import axios from 'axios'
-import { onMounted, reactive } from '@vue/runtime-core'
+import { onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 
 export default {
   props: ['title','targetPath', 'showDate'],
   setup(props) {
-    const movieDataArr = reactive({})
+    const movieDataArr = reactive([])
     const store = useStore()
+    const noData = ref(false)
     onMounted(
       axios({url: props.targetPath})
       .then((response) => {
         movieDataArr.value = response.data.results
         store.commit('toggleIsPageLoading', false)
       })
+      .catch(() => {
+        noData.value = true
+      })
     )
 
-    return {movieDataArr, props}
+    return {movieDataArr, props, noData}
   }
 }
 </script>
@@ -47,6 +52,12 @@ export default {
       font-size: var(--title-main-size);
       color: var(--title-main-color);
       margin-bottom: var(--title-main-mb);
+    }
+
+    .noData {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.61);
+
     }
 
     .list {
