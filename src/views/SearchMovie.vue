@@ -17,6 +17,9 @@
       <div class="filler"></div>
       <div class="filler"></div>
       <div class="filler"></div>
+      <div class="filler"></div>
+      <div class="filler"></div>
+      <div class="filler"></div>
     </ul>
     <MovieBox v-if="isMovieBox"/>
   </div>
@@ -143,6 +146,12 @@ export default {
             img {
               width: var(--movie-wrap-w);
               height: var(--poster-h);
+              transition: .3s ease;
+              border-radius: var(--poster-border-radius);
+              
+              &:hover {
+                transform: translate(3px, 3px);
+              }
             }
           }
 
