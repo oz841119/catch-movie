@@ -4,7 +4,7 @@
     <div class="movieList">
       <div class="movieWrap" v-for="movie in movieList" :key="movie.id">
         <div class="imgWrap">
-          <img class="img" :src="movie.poster_path" alt="">
+          <img class="img" :src="movie.poster_path" @error="errImg" alt="">
         </div>
         <div class="info">
           <div class="movieName">{{movie.title}}</div>
@@ -32,6 +32,7 @@ export default {
       .then(res => {
         targetPatch.value = res
         axios({url: targetPatch.value}).then((res) => {
+          console.log(res);
           res.data.parts.forEach(movieData => {
             if(movieData.id != store.state.api.movieId) { // 如果API回傳的電影id與當前Box的id一致時，則跳過添加
             console.log(movieList);
@@ -45,7 +46,12 @@ export default {
 
     onMounted(getTargetPatch)
 
-    return { movieList }
+    function errImg(e) {
+      console.log(e.target.src);
+      e.target.src = '/images/noImg.jpg'
+    }
+
+    return { movieList, errImg }
   }
 }
 </script>

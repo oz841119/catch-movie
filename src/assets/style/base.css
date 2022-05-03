@@ -23,6 +23,7 @@
   --input-font-size: 16px;
 
   --poster-h: 278px;
+  --poster-border-radius: 6px;
 
   --moviebox-info-pd: 0 46px 0 46px;
   --moviebox-overview-font-size: 14px;
