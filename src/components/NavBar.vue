@@ -1,7 +1,7 @@
 <template>
   <div class="navBar">
     <a class="title" href="./">
-      <img src="./images/logo.png" alt="">
+      <img src="../assets/images/logo.png" alt="">
     </a>
     <Search/>
   </div>
