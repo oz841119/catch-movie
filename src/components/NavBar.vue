@@ -1,6 +1,6 @@
 <template>
   <div class="navBar">
-    <a class="title" href="/">
+    <a class="title" href="./">
       <img src="/images/logo.png" alt="">
     </a>
     <Search/>
