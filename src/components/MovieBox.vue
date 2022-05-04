@@ -57,6 +57,7 @@
   
   onMounted(() => { 
     store.state.movieBox.isMovieBox = true 
+    window.addEventListener('keyup', EscListenter)
   })
 
   onMounted(() => {
@@ -74,6 +75,7 @@
 
   onBeforeUnmount(() => {
     store.state.movieBox.isMovieBox = false
+    window.removeEventListener('keyup', EscListenter)
   })
 
   const getMovieInfo = function(movieInfo) {
@@ -94,6 +96,13 @@
 
   const closeMovieBox = function() {
     route.params.id ? router.push('/') : router.push(`/search?query=${route.query.query}`)
+  }
+
+  const EscListenter = function(e) {
+    if(e.keyCode === 27) {
+      console.log(123);
+      closeMovieBox()
+    }
   }
 
   const showAllActors = function() {
