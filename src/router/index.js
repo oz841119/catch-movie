@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import SearchMovie from '../views/SearchMovie'
 
 import MovieBox from '../components/MovieBox'
+import NotFound from '../views/NotFound'
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     name: 'SearchMovie',
     path: '/search',
     component: SearchMovie,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
   }
 ]
 
