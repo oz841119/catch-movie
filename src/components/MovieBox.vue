@@ -63,13 +63,18 @@
   onMounted(() => {
     store.commit('getMovieId', route.params.id || route.query.id) // 提交電影的ID給Vuex處理目標路徑，傳參或是vuex管理movieID尚有缺陷，先使用判斷URL的方式傳參
     const targetPath = store.getters.movieData
-    axios({url: targetPath}).then((res) => {
+    axios({url: targetPath})
+    .then((res) => {
       getMovieInfo(res.data)
       if(res.data.belongs_to_collection) {
         isCollection.value = true
         movieCollection.value = res.data.belongs_to_collection.id
       }
       isLoading.value = false
+    })
+    .catch(() => {
+      isLoading.value = false
+      movieData.backdropPath = `url('/images/noImg.jpg')`
     })
   })
 
