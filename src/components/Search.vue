@@ -1,31 +1,32 @@
 <template>
   <form class="search" :class="{'errBounce': isErrBounce, 'noneBdBottom': isSearchHistory}" @submit.native.prevent>
-    <input class="inp" id="inp" type="search" placeholder="輸入電影名稱" autocomplete="off" @focus="isSearchHistory = true" @blur="isSearchHistory = false" @submit.native.prevent>
+    <input class="inp" id="inp" ref="inpRef" type="search" placeholder="輸入電影名稱" autocomplete="off" @focus="isSearchHistory = true" @blur="blurFn()" @submit.native.prevent>
     <div class="serachIconWrap" @click="submit()" value=""><i class="uil uil-search searchIcon"></i></div>
     <input class="inputSubmit" type="submit" @click="submit()"> <!-- display: none 提供用戶按下Enter時提交表單用 -->
 
-    <div class="searchHistory" v-show="isSearchHistory">
-      <div class="searchHistoryItem">123</div>
-      <div class="searchHistoryItem">123</div>
-      <div class="searchHistoryItem">123</div>
-      <div class="searchHistoryItem">123</div>
-    </div>
+    <ul class="searchHistory" v-show="isSearchHistory">
+      <li class="searchHistoryItem" @click="changeSearchContent(item) ; submit()" v-for="item in searchHistory" :key="item">{{item}}</li>
+    </ul>
   </form>
 </template>
 
 <script>
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { ref, watch } from "vue";
+import { reactive, ref, watch, getCurrentInstance } from "vue";
 export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    let inpRef = ref(null)
     let isErrBounce = ref(false)
     let isSearchHistory = ref(false)
+    let searchHistory = ref([])
     
     const submit = function() {
+      console.log(123);
       let searchContent = inp.value.trim()
+      console.log(searchContent);
       if(!searchContent) {
         isErrBounce.value = true
         inp.value = ''
@@ -35,27 +36,41 @@ export default {
         return
       }
 
-      console.log(JSON.parse(localStorage.getItem('searchHistory')));
       setSearchHistory(JSON.parse(localStorage.getItem('searchHistory')), searchContent)
 
       router.push({ path: `search`, query: { query: searchContent }}) 
       inp.value = ''
+      inpRef.value.blur()
     }
 
     const setSearchHistory = function(localStorageArr, searchContent) {
       if(!(localStorageArr instanceof Array)) {
         localStorageArr = []
-        console.log(localStorageArr);
       }
-      localStorageArr.push(searchContent)
+      localStorageArr.unshift(searchContent)
+      if(localStorageArr.length > 10) {
+        localStorageArr.length = 10
+      }
       localStorage.setItem('searchHistory',JSON.stringify(localStorageArr))
     }
 
+    const blurFn = function() {
+      setTimeout(() => { // 使失焦時Click先執行後才隱藏，但參數設為0ms有機率失效，原因待查
+        isSearchHistory.value = false
+      }, 100);
+    }
+
+    const changeSearchContent = function(item) {
+      inp.value = item
+    }
+
     watch(isSearchHistory, function() {
-      console.log(this);
+      if(isSearchHistory) {
+        searchHistory.value = Array.from(new Set(JSON.parse(localStorage.getItem('searchHistory'))))
+      }
     })
 
-    return { submit, isErrBounce, isSearchHistory }
+    return { submit, isErrBounce, isSearchHistory, searchHistory, blurFn, changeSearchContent, inpRef }
   }
 }
 </script>
@@ -108,6 +123,7 @@ export default {
       border: 1px solid #fff;
       border-radius: 0 0 8px 8px;
       background-color: rgb(255, 255, 255);
+      z-index: 99;
 
       .searchHistoryItem {
         padding: 0 6px 0 12px;
@@ -115,6 +131,7 @@ export default {
         height: 26px;
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         &:hover {
           background-color: rgba(158, 158, 158, 0.319);
