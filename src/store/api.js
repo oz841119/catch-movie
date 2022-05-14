@@ -51,7 +51,7 @@ export default {
     },
 
     movieData(state) {
-      console.log(state.movieId);
+
       return `${state.baseURL}/movie/${state.movieId}?${state.key}&language=zh-TW&append_to_response=credits`
     },
   },
