@@ -159,7 +159,7 @@
         position: relative;
 
         @media screen and (max-width: 900px) {
-          height: 100vw / 15 * 9;
+          height: calc(100vw / 15 * 9)
         }
 
         .closeBtn {
