@@ -1,30 +1,49 @@
 <template>
   <form class="search" :class="{'errBounce': isErrBounce, 'noneBdBottom': isSearchHistory}" @submit.native.prevent>
-    <input class="inp" id="inp" ref="inpRef" type="search" placeholder="輸入電影名稱" autocomplete="off" @focus="isSearchHistory = true" @blur="blurFn()" @submit.native.prevent>
+    <input class="inp" id="inp" v-model="inpValue" ref="inpRef" type="search" placeholder="輸入電影名稱" autocomplete="off" @focus="checkInpValue()" @blur="blurFn()" @submit.native.prevent>
     <div class="serachIconWrap" @click="submit()" value=""><i class="uil uil-search searchIcon"></i></div>
     <input class="inputSubmit" type="submit" @click="submit()"> <!-- display: none 提供用戶按下Enter時提交表單用 -->
 
-    <ul class="searchHistory" v-show="isSearchHistory">
-      <li class="searchHistoryItem" @click="changeSearchContent(item) ; submit()" v-for="item in searchHistory" :key="item">{{item}}</li>
-    </ul>
+    <div>
+      <ul class="searchHistory" v-show="isSearchHistory">
+        <li class="searchHistoryItem" @click="changeSearchContent(item) ; submit()" v-for="item in searchHistory" :key="item">
+          <i class="uil uil-history historyIcon"></i>
+          <div class="fastSearchContent">{{item}}</div>
+        </li>
+      </ul>
+
+      <ul class="searchHistory" v-show="isFastSearch">
+        <li class="searchHistoryItem" @click="changeSearchContent(item) ; submit()" v-for="item in fastSearch" :key="item">
+          <i class="uil uil-search historyIcon"></i>
+          <div class="fastSearchContent">{{item}}</div>
+        </li>
+      </ul>
+
+    </div>
   </form>
 </template>
 
 <script>
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { reactive, ref, watch, getCurrentInstance } from "vue";
+import { reactive, ref, watch, } from "vue";
+import axios from "axios"
 export default {
   setup() {
     const store = useStore()
     const router = useRouter()
     let inpRef = ref(null)
+    let inpValue = ref('')
+
     let isErrBounce = ref(false)
+
     let isSearchHistory = ref(false)
     let searchHistory = ref([])
-    
+
+    let isFastSearch = ref(false)
+    const fastSearch = reactive([])
+
     const submit = function() {
-      console.log(123);
       let searchContent = inp.value.trim()
       console.log(searchContent);
       if(!searchContent) {
@@ -57,6 +76,7 @@ export default {
     const blurFn = function() {
       setTimeout(() => { // 使失焦時Click先執行後才隱藏，但參數設為0ms有機率失效，原因待查
         isSearchHistory.value = false
+        isFastSearch.value = false
       }, 100);
     }
 
@@ -64,13 +84,51 @@ export default {
       inp.value = item
     }
 
+    const checkInpValue = function() {
+      if(inpValue.value) {
+        isSearchHistory.value = false
+        isFastSearch.value = true
+        getMoviesName()
+      } else {
+        isSearchHistory.value = true
+        isFastSearch.value = false
+      }
+    }
+
+    const getMoviesName = function() {
+      store.dispatch('getSearchURL', inp.value.trim())
+      .then(URLres => {
+        axios({url: URLres})
+        .then(APIres => {
+          const res = APIres.data.results
+          fastSearch.length = 0
+          res.forEach(item => {
+            fastSearch.push(item.title)
+          })
+        })
+      })
+      console.log(fastSearch);
+    }
+
     watch(isSearchHistory, function() {
       if(isSearchHistory) {
         searchHistory.value = Array.from(new Set(JSON.parse(localStorage.getItem('searchHistory'))))
       }
     })
+    
+    watch(inpValue, function() {
+      fastSearch.length = 0
+      if(inpValue.value) {
+        getMoviesName()
+        isSearchHistory.value = false
+        isFastSearch.value = true
+      } else {
+        isSearchHistory.value = true
+        isFastSearch.value = false
+      }
+    })
 
-    return { submit, isErrBounce, isSearchHistory, searchHistory, blurFn, changeSearchContent, inpRef }
+    return { submit, isErrBounce, isSearchHistory, searchHistory, blurFn, changeSearchContent, inpRef, inpValue, checkInpValue, isFastSearch, fastSearch }
   }
 }
 </script>
@@ -132,6 +190,7 @@ export default {
         display: flex;
         align-items: center;
         cursor: pointer;
+        font-size: var(--movie-name-size);
 
         &:hover {
           background-color: rgba(158, 158, 158, 0.319);
@@ -139,6 +198,16 @@ export default {
 
         &:last-child{
           border-bottom: none;
+        }
+
+        .historyIcon {
+          margin-right: 6px;
+        }
+
+        .fastSearchContent {
+          white-space: nowrap;  
+          text-overflow:ellipsis; 
+          overflow:hidden;
         }
       }
     }
