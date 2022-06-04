@@ -6,7 +6,7 @@
       <MovieList title="榜上佳片" :targetPath="storeGetters.voteAverage"/>
       <MovieList title="即將上映" showDate="true" :targetPath="storeGetters.comingSoon"/>
       <MovieList title="已上映" showDate="true" :targetPath="storeGetters.newRelease"/>
-    <router-view/>
+    <router-view :key="route.currentRoute.value.path"/>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 <script>
 import MovieList from '../components/MovieList.vue'
 import Banner from '../components/Banner.vue'
-
+import { useRouter } from "vue-router";
 import { useStore } from 'vuex'
 export default {
   components: {
@@ -22,11 +22,13 @@ export default {
     Banner
   },
   setup() {
+    const route = useRouter()
     const store = useStore()
     const storeGetters = useStore().getters
     return { 
       storeGetters,
-      store
+      store,
+      route
     }
   }
 }

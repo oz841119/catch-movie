@@ -2,7 +2,7 @@
   <div class="aboutMovie">
     <div class="title">系列集</div>
     <div class="movieList">
-      <div class="movieWrap" v-for="movie in movieList" :key="movie.id">
+      <router-link class="movieWrap" v-for="movie in movieList" :to="/movie/+movie.id">
         <div class="imgWrap">
           <img class="img" :src="movie.poster_path" @error="errImg" alt="">
         </div>
@@ -10,7 +10,7 @@
           <div class="movieName">{{movie.title}}</div>
           <div class="movieRelease">( {{movie.release_date ? movie.release_date : '未上映'}} )</div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
