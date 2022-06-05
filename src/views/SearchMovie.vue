@@ -21,7 +21,7 @@
       <div class="filler"></div>
       <div class="filler"></div>
     </ul>
-    <MovieBox v-if="isMovieBox"/>
+    <MovieBox v-if="isMovieBox" :key="route.query.id"/>
   </div>
 </template>
 
@@ -45,7 +45,6 @@ export default {
     const movieDataList = reactive([])
     const isMovieBox = ref(true)
     const isNoData = ref(false)
-
     route.query.id ? isMovieBox.value = true : isMovieBox.value = false
     getMovies()
 

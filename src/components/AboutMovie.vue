@@ -2,7 +2,8 @@
   <div class="aboutMovie">
     <div class="title">系列集</div>
     <div class="movieList">
-      <router-link class="movieWrap" v-for="movie in movieList" :to="/movie/+movie.id">
+      <!-- <router-link class="movieWrap" v-for="movie in movieList" :to="/movie/+movie.id"> -->
+      <router-link class="movieWrap" v-for="movie in movieList" :to="route.path === '/search' ? {query: {query: route.query.query, id: movie.id}} : /movie/+movie.id">
         <div class="imgWrap">
           <img class="img" :src="movie.poster_path" @error="errImg" alt="">
         </div>
@@ -18,6 +19,8 @@
 <script>
 import { onMounted, reactive, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import { onBeforeRouteUpdate, useRoute } from "vue-router"
+
 import axios from 'axios'
 
 export default {
@@ -26,16 +29,15 @@ export default {
     const store = useStore()
     const targetPatch = ref('')
     const movieList = reactive([])
+    const route = useRoute()
     
     const getTargetPatch = () => {
       store.dispatch('getMovieCollectionURL', props.movieCollection)
       .then(res => {
         targetPatch.value = res
         axios({url: targetPatch.value}).then((res) => {
-          console.log(res);
           res.data.parts.forEach(movieData => {
             if(movieData.id != store.state.api.movieId) { // 如果API回傳的電影id與當前Box的id一致時，則跳過添加
-            console.log(movieList);
               movieData.poster_path = `${store.state.api.baseImgURL}${movieData.poster_path}` 
               movieList.push(movieData)
             }
@@ -51,7 +53,7 @@ export default {
       e.target.src = '/images/noImg.jpg'
     }
 
-    return { movieList, errImg }
+    return { movieList, errImg, route }
   }
 }
 </script>
