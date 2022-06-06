@@ -55,9 +55,13 @@
   const movieCollection = ref(null)
   const isLoading = ref(true)
   
-  onMounted(() => { 
+  onMounted(() => {
     store.state.movieBox.isMovieBox = true 
     window.addEventListener('keyup', EscListenter)
+  })
+
+  onMounted(() => {
+    store.commit('setHistoryMovieIdList', route.params.id || route.query.id)
   })
 
   onMounted(() => {
@@ -79,7 +83,7 @@
   })
 
   onBeforeUnmount(() => {
-    store.state.movieBox.isMovieBox = false
+    store.state.movieBox.isMovieBox = false // (X) 未經提交 直接更改了state？
     window.removeEventListener('keyup', EscListenter)
   })
 
@@ -87,7 +91,6 @@
     if(!movieInfo) return
     movieData.id = movieInfo.id
     movieData.title = movieInfo.title
-    // movieData.backdropPath = movieInfo.backdrop_path ? `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')` : `url('https://i.stack.imgur.com/6M513.png')`
     movieData.backdropPath = movieInfo.backdrop_path ? `url('${store.state.api.baseImgURL}${movieInfo.backdrop_path}')` : `url('/images/noImg.jpg')`
     movieData.originalTitle = movieInfo.original_title
     movieData.overview = movieInfo.overview
@@ -105,7 +108,6 @@
 
   const EscListenter = function(e) {
     if(e.keyCode === 27) {
-      console.log(123);
       closeMovieBox()
     }
   }
@@ -114,6 +116,7 @@
     showActorsCount.value = movieData.creditsCast.length
     isShowActorsCountBtn.value = false
   }
+
 </script>
 
 <style lang="scss" scoped>

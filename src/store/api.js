@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export default {
   state: {
     baseURL: 'https://api.themoviedb.org/3',
@@ -51,7 +53,6 @@ export default {
     },
 
     movieData(state) {
-
       return `${state.baseURL}/movie/${state.movieId}?${state.key}&language=zh-TW&append_to_response=credits`
     },
   },
@@ -73,6 +74,29 @@ export default {
       const state = context.state
       const url = `${state.baseURL}/search/movie?${state.key}&language=zh-TW&query=${payload}`
       return url
+    },
+
+    getMovie(context) {
+      const state = context.state
+      const historyMovieIdList = context.rootState.historyMovie.historyMovieIdList
+      const movieURLOfAxiosFnArr = []
+
+      historyMovieIdList.forEach((movieID) => {
+        const url = `${state.baseURL}/movie/${movieID}?${state.key}&language=zh-TW&append_to_response=credits`
+        movieURLOfAxiosFnArr.push(axios({url: url}))
+      }) 
+
+      return axios.all(movieURLOfAxiosFnArr).then(axios.spread((...results) => {
+        return new Promise(resolve => {
+          resolve(results)
+        })
+      }))
+      // console.dir(historyMovieIdList);
+      // axios({url: url})
+      //   .then(res => {
+      //     target.push(res)
+      //     return
+      //   })
     }
   },
 

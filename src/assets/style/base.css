@@ -8,6 +8,7 @@
   --title-web-size: 32px;
   --title-main-size: 24px;
   --movie-name-size: 14px;
+  --sub-font-size: 10px;
 
   --title-main-mb: 14px;
   --movie-name-mt: 8px;
@@ -56,6 +57,7 @@
     --title-web-size: 18px;
     --title-main-size: 16px;
     --movie-name-size: 12px;
+    --sub-font-size: 8px;
 
     --nav-wrap-h: 5vh;
 

@@ -2,6 +2,7 @@
   <div class="home">
     <!-- <Banner :targetPath="storeGetters.newRelease"/> -->
     <div>
+      <HistoryList title="歷史紀錄"/>
       <MovieList title="本週熱門" :targetPath="storeGetters.weekHot"/>
       <MovieList title="榜上佳片" :targetPath="storeGetters.voteAverage"/>
       <MovieList title="即將上映" showDate="true" :targetPath="storeGetters.comingSoon"/>
@@ -13,13 +14,15 @@
 
 <script>
 import MovieList from '../components/MovieList.vue'
+import HistoryList from '../components/HistoryList.vue';
 import Banner from '../components/Banner.vue'
 import { useRouter } from "vue-router";
 import { useStore } from 'vuex'
 export default {
   components: {
     MovieList,
-    Banner
+    Banner,
+    HistoryList
   },
   setup() {
     const route = useRouter()
