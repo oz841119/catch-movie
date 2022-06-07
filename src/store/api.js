@@ -76,21 +76,22 @@ export default {
       return url
     },
 
-    getMovie(context) {
+    getMovie(context) { // 提供給歷史瀏覽紀錄使用
       const state = context.state
-      const historyMovieIdList = context.rootState.historyMovie.historyMovieIdList
-      const movieURLOfAxiosFnArr = []
+      const historyMovieIdList = context.rootState.historyMovie.historyMovieIdList // 取得Vuex historyMovie模塊的historyMovieIdList
+      const movieURLOfAxiosFnArr = [] // 用於儲存axios請求函數
 
-      historyMovieIdList.forEach((movieID) => {
+      historyMovieIdList.forEach((movieID) => { // 遍歷historyMovieIdList中得所有ID 拼接為URL 製作axios請求函數加入近數組
         const url = `${state.baseURL}/movie/${movieID}?${state.key}&language=zh-TW&append_to_response=credits`
         movieURLOfAxiosFnArr.push(axios({url: url}))
       }) 
 
-      return axios.all(movieURLOfAxiosFnArr).then(axios.spread((...results) => {
-        return new Promise(resolve => {
-          resolve(results)
+      return axios.all(movieURLOfAxiosFnArr).then(axios.spread((...results) => { // axios.all接收一個由axios請求函數為元素的數組，
+        return new Promise(resolve => { // return一個新的Promise並調用resolve將結果送出，讓組件中可以使用.then方法
+          resolve(results) // 尚未處理reject方案
         })
       }))
+      
       // console.dir(historyMovieIdList);
       // axios({url: url})
       //   .then(res => {
