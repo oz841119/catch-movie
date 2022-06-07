@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="latestUpdate">
-      最近更新：20220515
+      最近更新：20220607 (響應式的歷史瀏覽紀錄重寫中...)
     </div>
     <div class="powered">
       Powered By <a href="https://developers.themoviedb.org/3" target="_blank">TMDB API</a>
