@@ -27,7 +27,7 @@ export default {
       const todayDate = new Date()
       const yy = todayDate.getFullYear()
       const mm = todayDate.getMonth()+1 >= 10 ? todayDate.getMonth()+1 : '0' + (todayDate.getMonth()+1).toString()
-      const dd = todayDate.getDate()+1 >= 10 ? todayDate.getDate() : '0' + (todayDate.getDate(-1)).toString()
+      const dd = todayDate.getDate() >= 10 ? todayDate.getDate() : '0' + (todayDate.getDate(-1)).toString()
       const dateFormatting = `${yy}-${mm}-${dd}`
       return dateFormatting
     },
