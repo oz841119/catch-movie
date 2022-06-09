@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="latestUpdate">
-      最近更新：20220607 (響應式的歷史瀏覽紀錄重寫中...)
+      最近更新：20220609 (v20220609 - 新增列表滾動按鈕，響應式的歷史瀏覽紀錄修正中)
     </div>
     <div class="powered">
       Powered By <a href="https://developers.themoviedb.org/3" target="_blank">TMDB API</a>
