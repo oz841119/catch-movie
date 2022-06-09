@@ -57,7 +57,7 @@ export default {
     // padding: var(--movieList-wrap-pd);
     margin-bottom: 40px;
     .title {
-      font-size: var(--title-main-size);
+      font-size: calc(var(--title-main-size) / 1.5);
       color: var(--title-main-color);
       margin-bottom: var(--title-main-mb);
 
@@ -94,12 +94,17 @@ export default {
         text-decoration: none;
 
         .imgWrap {
-          width: var(--movie-wrap-w);
-          height: var(--poster-h);
+          // width: var(--movie-wrap-w);
+          // height: var(--poster-h);
+          width: calc(var(--movie-wrap-w) / 1.5);
+          height: calc(var(--poster-h) / 1.5);
+
 
           img {
-            width: var(--movie-wrap-w);
-            height: var(--poster-h);
+            // width: 100%;
+            // height: 100%;
+            width: calc(var(--movie-wrap-w) / 1.5);
+            height: calc(var(--poster-h) / 1.5);
             transition: .3s ease;
             border-radius: var(--poster-border-radius);
             
@@ -117,7 +122,7 @@ export default {
         
         .movieName {  
           text-align: center;
-          font-size: var(--movie-name-size);
+          font-size: calc(var(--movie-name-size) / 1.5);
           margin-top: var(--movie-name-mt);
         }
       }
